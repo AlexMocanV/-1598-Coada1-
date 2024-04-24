@@ -1,0 +1,56 @@
+#include <fstream>
+#include <queue>
+#include <vector>
+#include <bitset>
+
+using ui = unsigned int;
+using namespace std;
+
+ifstream cin("coada1.in");
+ofstream cout("coada1.out");
+
+queue<int>coada;
+vector<pair<int, bool>> ap;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    ui n, e = 1, sterse = 0;
+    cin >> n;
+    ap.resize(1001);
+    while (n) {
+
+        string comand;
+        int nr;
+        cin >> comand >> nr;
+
+        if (comand == "push") {
+            if (ap[nr].second == true) {
+                while (coada.front() != nr && coada.empty()==false) {
+                    ap[coada.front()].second = false;
+                    coada.pop();
+                    sterse++;
+                }
+                if(coada.empty()==false)
+                coada.pop();sterse++;
+            }
+            coada.push(nr);
+            ap[nr].second = true;
+            ap[nr].first = e ;
+            e++;
+        } else if (comand == "query") {
+            if (ap[nr].second == false)
+                cout << -1 << "\n";
+            else
+                cout<< ap[nr].first - sterse <<"\n";
+        }
+        n--;
+    }
+    /*cout<<coada.size()<<"\n";
+    while (!coada.empty()) {
+        cout<<coada.front();
+        coada.pop();
+    }*/
+    return 0;
+}
